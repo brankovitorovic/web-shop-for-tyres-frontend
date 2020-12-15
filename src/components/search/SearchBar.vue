@@ -7,28 +7,28 @@
                 <div class="optionals">
                     <div>
                         <h2>Select width</h2>
-                        <select v-model="selectedWidth">
+                        <select v-model="selected.width">
                             <option disabled value="">Width</option>
                             <option v-for="w in allWidth" v-bind:key="w"> {{w}} </option>
                         </select>
                     </div>
                     <div>
                         <h2>Select height</h2>
-                        <select v-model="selectedHeight">
+                        <select v-model="selected.height">
                             <option disabled value="">Height</option>
                             <option v-for="h in allHeight" v-bind:key="h"> {{h}} </option>
                         </select>
                     </div>
                     <div>
                         <h2>Select diameter</h2>
-                        <select v-model="selectedDiameter">
+                        <select v-model="selected.diameter">
                             <option disabled value="">Diameter</option>
                             <option v-for="d in allWheelDiameter" v-bind:key="d"> {{d}} </option>
                         </select>
                     </div>
                     <div>
                         <h2>Select season</h2>
-                        <select v-model="selectedSeason">
+                        <select v-model="selected.season">
                             <option disabled value="">Season</option>
                             <option v-for="s in allSeasons" v-bind:key="s"> {{s}} </option>
                         </select>
@@ -48,21 +48,46 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
+
+    name: "SearchBar",
+    created() {
+        this.getDimensions();
+    },
     data() {
         return {
-            allWidth: ["165","170","175"],
-            allHeight: ["40","50","60","70"],
-            allWheelDiameter: ["14","15","16","17"], // ovo ces da uzmes u metodi od back-a
-            allSeasons: ["Summer","Winter","All season"], // these are the only possibilities, no need to ask backend
-            selectedWidth: '',
-            selectedHeight: '',
-            selectedDiameter: '',
-            selectedSeason: ''
+            allWidth: [],
+            allHeight: [],
+            allWheelDiameter: [],
+            allSeasons: ["SUMMER","WINTER","ALLSEASON"], // these are the only possibilities, no need to ask backend
+            selected: { 
+                width: "",
+                height: "",
+                diameter: "",
+                season: "",
+            }
         }
     },
     methods: {
+        getDimensions(){
+            axios({url: "/tyre/dimensions",method:"GET"})
+            .then( resp => {
+                this.allWidth = resp.data.widths;
+                this.allHeight = resp.data.heights;
+                this.allWheelDiameter = resp.data.diameters;
+            })
+            .catch( err => console.log(err));
+        },
         searchTyres(){
+
+            if(this.selected.season == ""){
+                alert("Please select tyre season.");
+                return;
+            }
+
+            this.$store.dispatch('search',{selected: this.selected});
             this.$router.push("/search");
         }
     }

@@ -1,7 +1,6 @@
 <template>
     <div class="searchResault">
         <FilterBar></FilterBar>
-        <Pagination></Pagination>
         <ResaultCard></ResaultCard>
         <Pagination></Pagination>
     </div>
@@ -16,9 +15,7 @@ export default {
     name: "SearchResaults",
     components: {
         FilterBar, ResaultCard, Pagination
-    }
-
-
+    },
 }
 </script>
 

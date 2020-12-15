@@ -17,10 +17,13 @@ import SearchBar from '../components/search/SearchBar.vue'
 import ResaultCards from '../components/resault-cards/ResaultCards.vue'
 
 export default {
-  name: 'Home',
-  components: {
-    SearchBar, ResaultCards
-  }
+    name: 'Home',
+    components: {
+      SearchBar, ResaultCards
+    },
+    created() {
+          this.$store.dispatch('loadPopular'); 
+    }
 }
 </script>
 

@@ -4,25 +4,24 @@
             <h2 class="title">Filters</h2>
 
             <div class="optionals">
-            <!-- fali v-model svuda naravno -->
                 <div class="priceRange"> 
 
                     <label for="price">Price range from:</label>
-                    <input type="number">
+                    <input type="number" v-model="priceFrom">
 
                     <label for="price">to:</label>
-                    <input type="number">
-                    <button>Apply</button>
+                    <input type="number" v-model="priceTo">
+                    <button @click="apply">Apply</button>
                     
-                    <button class="redText">Reset price</button>
+                    <button class="redText" @click="reset">Reset price</button>
 
                 </div> 
 
                 <div class="sortBy">
                     <label for="sort">Sort by:</label>
                     <select @change="sortBy" v-model="selectedSort">
-                        <option disabled value="">Price or Name</option>
-                        <option v-for="sort in sorts" v-bind:key="sort" value=""> {{sort}}</option>
+                        <option disabled value="null">Price or Name</option>
+                        <option v-for="sort in sorts" v-bind:key="sort"> {{sort}}</option>
                     </select>
 
                 </div>
@@ -40,14 +39,21 @@ export default {
     name: "FilterBar",
     data(){
         return {
-            sorts: ["Price ascending","Price descending", "Name ascending", "Name descending"],
-            selectedSort: ""
-        
+            sorts: ["Price ascending","Price descending", "Brand ascending", "Brand descending"],
+            selectedSort: null,
+            priceFrom: null,
+            priceTo: null
         }
     },
     methods: {
-        sortBy(){ // ovo radi 
-            console.log(this.selectedSort);
+        sortBy(){
+            this.$store.dispatch("sort",this.selectedSort);
+        },
+        apply(){
+            this.$store.dispatch("price",{priceFrom: this.priceFrom, priceTo: this.priceTo});
+        },
+        reset(){
+            this.$store.dispatch("reset");
         }
     }
 }

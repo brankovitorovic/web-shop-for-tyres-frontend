@@ -21,10 +21,16 @@ export default {
     props: ["tyre"],
     methods: {
         showTyre(tyre){
-            this.$router.push({name: "Details",params: {tyre: tyre}}) // nemoj da saljem uopste ovako kao preko params, vec cuvaj koji pokazujes u storu i samo njega prikazi u details bravo
-            .catch( () => {
-                
-            });
+            this.$store.dispatch('currentTyre',tyre);
+            if(this.$route.name != "Details"){
+                this.$router.push("/Details");
+            }else {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            }
         },
         
     },

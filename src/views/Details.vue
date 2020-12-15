@@ -13,6 +13,8 @@
                         <h3>{{tyre.name}}</h3>
                         <h2>Size: {{tyre.width}}/{{tyre.height}} R{{tyre.diameter}}</h2>
 
+                        <h2>Season: {{tyre.season}}</h2>
+
                         <div>
                             <span class="counter">
                                 <span class="sub" @click="sub">-</span>
@@ -26,7 +28,7 @@
 
                         </div>
 
-                    <button @click="addToCart" :disabled="! isLogged">Add to cart</button> <!-- proveri ako nije ulogovan stavi ovde da je disabled recimo -->
+                    <button @click="addToCart" :disabled="! isLogged">Add to cart</button> 
                     <h3 v-if="! isLogged">Please <router-link class="signUp" to="/signIn">sign in</router-link> to be able to add to cart.</h3>
 
                     </div>
@@ -44,16 +46,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ResaultCards from '../components/resault-cards/ResaultCards.vue';
 
 export default {
     name: "Details",
-    computed: {
+    computed: {  
         isLogged(){
             return this.$store.getters.isLoggedIn;
         },
+        ...mapGetters([
+            'tyre'
+        ])
     },
-    props: ["tyre"],
     data(){
         return {
             counter: 1
@@ -64,8 +69,8 @@ export default {
     },
     methods: {
         addToCart(){
-            console.log("Add to cart!");
-        },
+            this.$store.dispatch("addToCart",{tyre : this.tyre, quantity: this.counter});
+        },  
         add(){
             this.counter++;
         },

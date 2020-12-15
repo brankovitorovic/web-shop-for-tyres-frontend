@@ -33,7 +33,7 @@ export default {
   background-position: 0% 0%;
   background-size: cover;
   background-color: white;
-  height: 900px;
+  height: 1000px;
   
 }
 ::-webkit-scrollbar {
