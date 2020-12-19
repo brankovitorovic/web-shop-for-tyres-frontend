@@ -12,11 +12,11 @@
   <summary>Technologies and libraries</summary>
   <br />
 
- 1. HTML5
- 2. Css
- 3. Vue js ( router, vuex )
- 4. Javascript
- 5. Axios
+  1. HTML5
+  2. Css
+  3. Vue js ( router, vuex )
+  4. Javascript
+  5. Axios
 </details>
 
 <details>
